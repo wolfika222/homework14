@@ -3,7 +3,6 @@ package utilities;
 import POJO.Customer;
 import java.sql.PreparedStatement;
 import com.util.ConnectionConfiguration;
-
 import java.sql.*;
 import java.sql.Connection;
 import java.sql.Statement;

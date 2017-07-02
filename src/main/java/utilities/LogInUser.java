@@ -2,7 +2,6 @@ package utilities;
 
 import POJO.Customer;
 import com.util.ConnectionConfiguration;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -1,10 +1,7 @@
 package utilities;
 
-import POJO.City;
 import POJO.Customer;
-import POJO.Project;
 
-import java.util.List;
 
 /**
  * Created by Hp_Workplace on 2017. 06. 28..

@@ -1,13 +1,5 @@
-import POJO.City;
-import POJO.Customer;
-import com.util.ConnectionConfiguration;
-import utilities.AdminSide;
-import utilities.Registry;
-import utilities.UserSide;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
+import utilities.Registry;
 
 /**
  * Created by Hp_Workplace on 2017. 06. 23..

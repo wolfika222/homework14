@@ -1,8 +1,6 @@
 package utilities;
 
 import POJO.Customer;
-
-import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
