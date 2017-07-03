@@ -1,8 +1,10 @@
 package com.util.wolfika222.pojo;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class Customer {
 
     private int customerId;
@@ -13,11 +15,7 @@ public class Customer {
     private int cityId;
     private int companyId;
     private int identity;
-
-
-
-public Customer() {
-}
+    
 
     public Customer(String userName, String password, String fullName, String email, int cityId, int companyId) {
         this.userName = userName;
