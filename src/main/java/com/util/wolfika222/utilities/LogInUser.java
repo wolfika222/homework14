@@ -2,6 +2,7 @@ package com.util.wolfika222.utilities;
 
 import com.util.wolfika222.pojo.Customer;
 import com.util.wolfika222.connection.ConnectionConfiguration;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,29 +20,35 @@ public class LogInUser {
     public Customer login() {
 
         Scanner scanner = new Scanner(System.in);
-
+        Connection connection = ConnectionConfiguration.getConnection();
         System.out.println("Add meg a felhasználóneved: ");
         userName = scanner.nextLine();
         System.out.println("Add meg a jelszavad: ");
         pwd = scanner.nextLine();
         Customer logIn = new Customer();
-        Connection connection = ConnectionConfiguration.getConnection();
+
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM customer WHERE username ='" + userName + "' AND password='" + pwd + "'");
+
+            PreparedStatement preparedStatement = connection.prepareStatement(QueryConstans.LOGGED_IN_USER_CHECK);
+            preparedStatement.setString(1, userName);
+            preparedStatement.setString(2, pwd);
             ResultSet resultSet = preparedStatement.executeQuery();
-
             resultSet.next();
-
-                logIn.setCustomerId(resultSet.getInt("customer_id"));
-                logIn.setUserName(resultSet.getString("username"));
-                logIn.setPassword(resultSet.getString("password"));
-                logIn.setIdentity(resultSet.getInt("identity"));
-
-                connection.close();
+            logIn.setUserName(resultSet.getString("username"));
+            logIn.setPassword(resultSet.getString("password"));
+            logIn.setIdentity(resultSet.getInt("identity"));
 
         } catch (SQLException e) {
             System.out.println("Rossz felhasználó név, vagy jelszó! --> újra");
             login();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return logIn;
     }

@@ -1,8 +1,11 @@
 package com.util.wolfika222.utilities;
 
 import com.util.wolfika222.pojo.Customer;
+
 import java.sql.PreparedStatement;
+
 import com.util.wolfika222.connection.ConnectionConfiguration;
+
 import java.sql.*;
 import java.sql.Connection;
 import java.sql.Statement;
@@ -126,59 +129,17 @@ public class AdminSide implements IAdminSide {
 
         System.out.println("Adj meg egy új várost");
         String newCityName = scanner.nextLine();
-
-        try {
-            Connection connection = ConnectionConfiguration.getConnection();
-            Statement statement = connection.createStatement();
-
-            String sql = "insert into city (city_name) values ('" + newCityName + "')";
-
-            statement.executeUpdate(sql);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void addNewProject() {
-
-        try {
-            System.out.println("Adj meg egy új projektet");
-            String newProjectName = scanner.nextLine();
-            Connection connection = ConnectionConfiguration.getConnection();
-            Statement statement = connection.createStatement();
-
-            String sql = "insert into project (project_name) values ('" + newProjectName + "')";
-
-            statement.executeUpdate(sql);
-
-        } catch (InputMismatchException e){
-            System.out.println("Érvénytelen karakter!");
-            addNewProject();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public void deleteUser() {
-
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
         try {
-            System.out.println("Melyik usert szeretné törölni?");
-            int id = scanner.nextInt();
             connection = ConnectionConfiguration.getConnection();
-            preparedStatement = connection.prepareStatement(QueryConstans.DELETE_USER__GET_ID);
-            preparedStatement.setInt(1, id);
+            preparedStatement = connection.prepareStatement(QueryConstans.ADD_NEW_CITY);
+            preparedStatement.setString(1, newCityName);
+
             preparedStatement.executeUpdate();
 
-        }catch (InputMismatchException e){
-            System.out.println("Érvénytelen karakter!");
-            deleteUser();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
 
@@ -198,6 +159,80 @@ public class AdminSide implements IAdminSide {
             }
         }
     }
+
+    public void addNewProject() {
+
+        System.out.println("Adj meg egy új projektet");
+        String newProjectName = scanner.nextLine();
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = ConnectionConfiguration.getConnection();
+            preparedStatement = connection.prepareStatement(QueryConstans.ADD_NEW_PROJECT);
+            preparedStatement.setString(1, newProjectName);
+
+            preparedStatement.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void deleteUser() {
+
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            System.out.println("Melyik usert szeretné törölni?");
+            int id = scanner.nextInt();
+            connection = ConnectionConfiguration.getConnection();
+            preparedStatement = connection.prepareStatement(QueryConstans.DELETE_USER__GET_ID);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+
+        } catch (InputMismatchException e) {
+            System.out.println("Érvénytelen karakter!");
+            deleteUser();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                if (preparedStatement != null) {
+                    try {
+                        preparedStatement.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+        }
+    }
+
     public void upIdentity() {
 
         System.out.println("Melyik usert szeretnéd updatelni?");
