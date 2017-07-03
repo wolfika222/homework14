@@ -1,6 +1,6 @@
-package utilities;
+package com.util.wolfika222.utilities;
 
-import POJO.Customer;
+import com.util.wolfika222.pojo.Customer;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 

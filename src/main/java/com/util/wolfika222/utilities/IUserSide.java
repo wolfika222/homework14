@@ -1,9 +1,6 @@
-package utilities;
+package com.util.wolfika222.utilities;
 
-import POJO.City;
-import POJO.Company;
-import POJO.Customer;
-import POJO.Project;
+import com.util.wolfika222.pojo.Customer;
 
 /**
  * Created by Hp_Workplace on 2017. 06. 28..

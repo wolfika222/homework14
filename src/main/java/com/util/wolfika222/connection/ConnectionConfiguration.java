@@ -1,4 +1,4 @@
-package com.util;
+package com.util.wolfika222.connection;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -28,7 +28,7 @@ public class ConnectionConfiguration {
 
     public static Properties getProperties() {
         Properties p = new Properties();
-        FileInputStream fls;
+        FileInputStream fls = null;
         try {
             fls = new FileInputStream("C:\\Users\\Hp_Workplace\\IdeaProjects\\homework14\\src\\main\\resources\\db.properties");
             p.load(fls);
@@ -36,6 +36,14 @@ public class ConnectionConfiguration {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (fls != null) {
+                try {
+                    fls.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return p;
     }

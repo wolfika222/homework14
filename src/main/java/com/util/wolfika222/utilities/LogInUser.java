@@ -1,7 +1,7 @@
-package utilities;
+package com.util.wolfika222.utilities;
 
-import POJO.Customer;
-import com.util.ConnectionConfiguration;
+import com.util.wolfika222.pojo.Customer;
+import com.util.wolfika222.connection.ConnectionConfiguration;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,13 +19,13 @@ public class LogInUser {
     public Customer login() {
 
         Scanner scanner = new Scanner(System.in);
-        Connection connection = ConnectionConfiguration.getConnection();
 
         System.out.println("Add meg a felhasználóneved: ");
         userName = scanner.nextLine();
         System.out.println("Add meg a jelszavad: ");
         pwd = scanner.nextLine();
         Customer logIn = new Customer();
+        Connection connection = ConnectionConfiguration.getConnection();
         try {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM customer WHERE username ='" + userName + "' AND password='" + pwd + "'");
             ResultSet resultSet = preparedStatement.executeQuery();

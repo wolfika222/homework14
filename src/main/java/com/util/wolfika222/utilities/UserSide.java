@@ -1,8 +1,8 @@
-package utilities;
+package com.util.wolfika222.utilities;
 
-import POJO.Customer;
-import POJO.Project;
-import com.util.ConnectionConfiguration;
+import com.util.wolfika222.pojo.Customer;
+import com.util.wolfika222.pojo.Project;
+import com.util.wolfika222.connection.ConnectionConfiguration;
 
 import java.sql.*;
 import java.util.ArrayList;

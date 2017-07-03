@@ -1,4 +1,4 @@
-package POJO;
+package com.util.wolfika222.pojo;
 
 import lombok.Data;
 
