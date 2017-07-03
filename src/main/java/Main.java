@@ -1,4 +1,5 @@
 
+import com.util.wolfika222.utilities.IRegistry;
 import com.util.wolfika222.utilities.Registry;
 
 /**
@@ -8,7 +9,7 @@ public class Main {
 
     public static void main(String [] args) {
 
-        Registry registry = new Registry();
+        IRegistry registry = new Registry();
         registry.run();
 
 

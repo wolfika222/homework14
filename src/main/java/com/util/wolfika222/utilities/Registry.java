@@ -9,8 +9,8 @@ import java.util.Scanner;
  */
 public class Registry implements IRegistry {
 
-    AdminSide adminSide = new AdminSide();
-    UserSide userSide = new UserSide();
+    IAdminSide adminSide = new AdminSide();
+    IUserSide userSide = new UserSide();
     LogInUser logInUser = new LogInUser();
     Scanner scanner = new Scanner(System.in);
 
