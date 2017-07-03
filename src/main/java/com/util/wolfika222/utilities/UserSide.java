@@ -128,7 +128,7 @@ public class UserSide implements IUserSide {
             while (resultSet.next()) {
                 Project project = new Project();
                 project.setProjectId(resultSet.getInt("project_id"));
-                project.setProjectName(resultSet.getString("projectname"));
+                project.setProjectName(resultSet.getString("project_name"));
                 projectList.add(project);
             }
         } catch (Exception e) {
