@@ -2,9 +2,18 @@ package com.util.wolfika222.utilities;
 
 import com.util.wolfika222.pojo.Customer;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.sql.PreparedStatement;
 
 import com.util.wolfika222.connection.ConnectionConfiguration;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.Row;
 
 import java.sql.*;
 import java.sql.Connection;
@@ -22,19 +31,20 @@ public class AdminSide implements IAdminSide {
     Scanner scanner = new Scanner(System.in);
 
     public void printAdminMenu() {
-        System.out.println("*********************");
-        System.out.println("**       Menü      **");
-        System.out.println("**Get All User(1)  **");
-        System.out.println("**Update Identity(2)*");
-        System.out.println("**Add new city(3)  **");
-        System.out.println("**Add new project(4)*");
-        System.out.println("**Delete User(5)   **");
-        System.out.println("**Exit(0)          **");
-        System.out.println("*********************");
+        System.out.println("***********************");
+        System.out.println("**        Menü       **");
+        System.out.println("**Get All User(1)    **");
+        System.out.println("**Update Identity(2) **");
+        System.out.println("**Add new city(3)    **");
+        System.out.println("**Add new project(4) **");
+        System.out.println("**Delete User(5)     **");
+        System.out.println("**Create Apache POI(6)*");
+        System.out.println("**Exit(0)            **");
+        System.out.println("***********************");
 
     }
 
-    public void getAllUser() {
+    public List<Customer> getAllUser() {
         List<Customer> customersList = new ArrayList<Customer>();
         Connection connection = null;
         Statement statement = null;
@@ -85,9 +95,7 @@ public class AdminSide implements IAdminSide {
             }
         }
 
-        for (Customer item : customersList) {
-            System.out.println(item.toString());
-        }
+        return customersList;
     }
 
 
@@ -205,7 +213,7 @@ public class AdminSide implements IAdminSide {
             System.out.println("Melyik usert szeretné törölni?");
             int id = scanner.nextInt();
             connection = ConnectionConfiguration.getConnection();
-            preparedStatement = connection.prepareStatement(QueryConstans.DELETE_USER__GET_ID);
+            preparedStatement = connection.prepareStatement(QueryConstans.DELETE_USER_GET_ID);
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
 
@@ -245,6 +253,76 @@ public class AdminSide implements IAdminSide {
         } else {
             Customer customer = new Customer(selectedIDentity);
             updateUser(customer, id);
+        }
+    }
+
+    public void writeToExcel() {
+
+        try {
+
+            HSSFWorkbook workbook = new HSSFWorkbook();
+            HSSFSheet sheet = workbook.createSheet("Customers");
+
+            Row heading = sheet.createRow(0);
+            heading.createCell(0).setCellValue("Id");
+            heading.createCell(1).setCellValue("Username");
+            heading.createCell(2).setCellValue("Password");
+            heading.createCell(3).setCellValue("FullName");
+            heading.createCell(4).setCellValue("Email");
+            heading.createCell(5).setCellValue("City");
+            heading.createCell(6).setCellValue("Company");
+            heading.createCell(7).setCellValue("Identity");
+            for (int i = 0; i < 8; i++) {
+                CellStyle rowCellStyle = workbook.createCellStyle();
+                Font font = workbook.createFont();
+                font.setBold(true);
+                font.setFontName(HSSFFont.FONT_ARIAL);
+                font.setFontHeightInPoints((short) 11);
+                rowCellStyle.setFont(font);
+                heading.getCell(i).setCellStyle(rowCellStyle);
+            }
+            
+            int r = 1;
+            for (Customer item: getAllUser()) {
+                Row row = sheet.createRow(r);
+
+                Cell cellId = row.createCell(0);
+                cellId.setCellValue(item.getCustomerId());
+
+                Cell cellUsername = row.createCell(1);
+                cellUsername.setCellValue(item.getUserName());
+
+                Cell cellPasswd = row.createCell(2);
+                cellPasswd.setCellValue(item.getPassword());
+
+                Cell cellFullname = row.createCell(3);
+                cellFullname.setCellValue(item.getFullName());
+
+                Cell cellEmail = row.createCell(4);
+                cellEmail.setCellValue(item.getEmail());
+
+                Cell cellCity = row.createCell(5);
+                cellCity.setCellValue(item.getCityId());
+
+                Cell cellCompany = row.createCell(6);
+                cellCompany.setCellValue(item.getCompanyId());
+
+                Cell cellIdentity = row.createCell(7);
+                cellIdentity.setCellValue(item.getIdentity());
+
+                r++;
+            }
+            for (int i = 0; i < 8; i++) {
+                sheet.autoSizeColumn(i);
+            }
+
+            FileOutputStream out = new FileOutputStream(new File("C:\\Users\\Hp_Workplace\\IdeaProjects\\homework14\\documents\\customer.xls"));
+            workbook.write(out);
+            out.close();
+            workbook.close();
+            System.out.println("A táblázat sikeresen elkészült!");
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

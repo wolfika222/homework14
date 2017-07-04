@@ -1,6 +1,7 @@
 package com.util.wolfika222.utilities;
 
 import com.util.wolfika222.pojo.Customer;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -63,70 +64,75 @@ public class Registry implements IRegistry {
     }
 
     public void signIn() {
-            int choose = -1;
-            Customer loggedIn = logInUser.login();
+        int choose = -1;
+        Customer loggedIn = logInUser.login();
 
-            if (loggedIn.getIdentity() == 0){
+        if (loggedIn.getIdentity() == 0) {
 
-                try {
-                    while (choose != 0) {
-                        adminSide.printAdminMenu();
-                        System.out.println("Adj meg egy menüpontot: (0-5)");
-                        choose = scanner.nextInt();
-                        switch (choose) {
-                            case 1:
-                                adminSide.getAllUser();
-                                break;
-                            case 2:
-                                adminSide.upIdentity();
-                                break;
-                            case 3:
-                                adminSide.addNewCity();
-                                break;
-                            case 4:
-                                adminSide.addNewProject();
-                                break;
-                            case 5:
-                                adminSide.deleteUser();
-                                break;
-                            case 0:
-                                System.out.println("Bye");
-                                break;
-                            default:
-                                System.out.println("Ilyen lehetőség nincs!\n");
-                                break;
-                        }
+            try {
+                while (choose != 0) {
+                    adminSide.printAdminMenu();
+                    System.out.println("Adj meg egy menüpontot: (0-6)");
+                    choose = scanner.nextInt();
+                    switch (choose) {
+                        case 1:
+                            for (Customer item : adminSide.getAllUser()) {
+                                System.out.println(item.toString());
+                            }
+                            break;
+                        case 2:
+                            adminSide.upIdentity();
+                            break;
+                        case 3:
+                            adminSide.addNewCity();
+                            break;
+                        case 4:
+                            adminSide.addNewProject();
+                            break;
+                        case 5:
+                            adminSide.deleteUser();
+                            break;
+                        case 6:
+                            adminSide.writeToExcel();
+                            break;
+                        case 0:
+                            System.out.println("Bye");
+                            break;
+                        default:
+                            System.out.println("Ilyen lehetőség nincs!\n");
+                            break;
                     }
-                } catch (InputMismatchException e) {
-                    System.out.println("Érvénytelen karakter!");
                 }
-            }else {
-                try {
-                    while (choose != 0) {
-                        userSide.printUserMenu();
-                        System.out.println("Adj meg egy menüpontot: (0-3)");
-                        choose = scanner.nextInt();
-                        switch (choose) {
-                            case 1:
-                                userSide.selectProject();
-                                break;
-                            case 2:
-                                userSide.unselectProject();
-                                break;
-                            case 3:
-                                userSide.queryProject();
-                                break;
-                            case 0:
-                                System.out.println("Bye");
-                                break;
-                            default:
-                                System.out.println("Ilyen lehetőség nincs!\n");
-                                break;
-                        }
-                    }
-                } catch (InputMismatchException e) {
-                    System.out.println("Érvénytelen karakter!");
-                }
+            } catch (InputMismatchException e) {
+                System.out.println("Érvénytelen karakter!");
             }
+        } else {
+            try {
+                while (choose != 0) {
+                    userSide.printUserMenu();
+                    System.out.println("Adj meg egy menüpontot: (0-3)");
+                    choose = scanner.nextInt();
+                    switch (choose) {
+                        case 1:
+                            userSide.selectProject();
+                            break;
+                        case 2:
+                            userSide.unselectProject();
+                            break;
+                        case 3:
+                            userSide.queryProject();
+                            break;
+                        case 0:
+                            System.out.println("Bye");
+                            break;
+                        default:
+                            System.out.println("Ilyen lehetőség nincs!\n");
+                            break;
+                    }
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Érvénytelen karakter!");
+            }
+        }
     }
 }
